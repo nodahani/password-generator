@@ -1,3 +1,6 @@
+import random
+import string
+
 print("Welcome to the password generator!")
 
 
@@ -51,8 +54,40 @@ def get_password_types():
                 result.append(num)
             else:
                 print(f"** Invalid option [{num}] **")
-        return result
+
+        if result:
+            return result
+        else:
+            print("** No character types selected! **")
 
 
-length = get_password_length()
-types = get_password_types()
+def password_generator():
+    length = get_password_length()
+    if length is None:
+        return None
+
+    types = get_password_types()
+    if types is None:
+        return None
+
+    allowed = ""
+    if 1 in types:
+        allowed += string.ascii_lowercase
+    if 2 in types:
+        allowed += string.ascii_uppercase
+    if 3 in types:
+        allowed += string.digits
+    if 4 in types:
+        allowed += string.punctuation
+
+    password = ""
+    for _ in range(length):
+        password += random.choice(allowed)
+    return password
+
+
+password = password_generator()
+if password is None:
+    print("** Cancelled. **")
+else:
+    print(f"Your password: {password}")
